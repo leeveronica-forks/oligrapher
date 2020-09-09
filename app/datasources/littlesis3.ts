@@ -55,7 +55,7 @@ const validateId = (id: number): void => {
 
 // API
 
-interface LsNode {
+export interface LsNode {
   id: string,
   name: string,
   description?: string,
@@ -106,7 +106,7 @@ export function findNodes(query: string): Promise<LsNode[]> {
     .json()
 }
 
-export function findConnections(entityId: string, categoryId?: string): Promise<LsNodeWithEdge[]> {
+export function findConnections(entityId: string, categoryId?: number): Promise<LsNodeWithEdge[]> {
   let params = { entity_id: entityId, num: 30 } as any
 
   if (categoryId) {

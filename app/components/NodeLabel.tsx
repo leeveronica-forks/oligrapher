@@ -1,13 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import ConditionalLink from './ConditionalLink'
 import textLines from '../util/textLines'
-import { NODE_RADIUS } from '../graph/node'
+import { Node, NODE_RADIUS } from '../graph/node'
 
 const FONT_SIZE = 16
 
-export default function NodeLabel({ node, perLineMax, status }) {
+export default function NodeLabel({ node, perLineMax, status = 'normal' }: NodeLabelProps) {
   const { name, x, y, scale } = node
 
   const color = {
@@ -71,12 +69,8 @@ export default function NodeLabel({ node, perLineMax, status }) {
   )
 }
 
-NodeLabel.propTypes = {
-  node: PropTypes.object.isRequired,
-  perLineMax: PropTypes.number,
-  status: PropTypes.string.isRequired
-}
-
-NodeLabel.defaultProps = {
-  status: 'normal'
+interface NodeLabelProps {
+  node: Node,
+  perLineMax: number,
+  status?: 'normal' | 'highlighted' | 'faded'
 }

@@ -40,7 +40,7 @@ export default function CaptionEditorSelect({ value, onChange, options, width, n
 
 interface CaptionEditorSelectProps {
   value: string,
-  onChange: (name: string) => () => void,
+  onChange: (name: string) => (event: React.ChangeEvent<{ value: unknown }>) => void,
   options: Array<{ value: any, label: any }>,
   width: number,
   name: string

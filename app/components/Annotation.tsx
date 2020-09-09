@@ -1,7 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-export default function Annotation({ annotation: { header, text } }) {
+import { Annotation } from '../util/annotations'
+
+export default function Annotation({ annotation: { header, text } }: AnnotationProps) {
   return (
     <div className="oligrapher-annotation">
       <div className="oligrapher-annotation-header">
@@ -14,6 +15,6 @@ export default function Annotation({ annotation: { header, text } }) {
   )
 }
 
-Annotation.propTypes = {
-  annotation: PropTypes.object.isRequired
+interface AnnotationProps {
+  annotation: Annotation
 }

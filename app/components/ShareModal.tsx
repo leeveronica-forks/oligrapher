@@ -34,5 +34,5 @@ export default function ShareModal({ open, close, url }: ShareModalProps) {
 export interface ShareModalProps {
   open: boolean,
   close: () => void,
-  url: string
+  url: string | null
 } 

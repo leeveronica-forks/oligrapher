@@ -1,15 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { callWithTargetValue } from '../util/helpers'
 
-export default function Title({ text, editable, onChange, url }) {
+export default function Title({ text, editable, onChange, url }: TitleProps) {
 
   return (
     <h1 id="oligrapher-title">
       {
-        editable 
-        ? <input value={text}
+        editable && onChange
+        ? <input value={text || ''}
             onChange={callWithTargetValue(onChange)}
             placeholder="Title" />
         : url ? <a href={url} target="_blank" rel="noreferrer" title="View this map on LittleSis">{text}</a> : text
@@ -18,9 +17,9 @@ export default function Title({ text, editable, onChange, url }) {
   )
 }
 
-Title.propTypes = {
-  text: PropTypes.string.isRequired,
-  editable: PropTypes.bool.isRequired,
-  onChange: PropTypes.func,
-  url: PropTypes.string
+interface TitleProps {
+  text: string | null,
+  editable: boolean,
+  onChange?: (text: string) => any,
+  url: string | null
 }

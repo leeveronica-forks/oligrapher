@@ -95,6 +95,7 @@ export default function HeaderEditActions() {
           cancel={{ label: 'Cancel', onClick: cancelDelete }}
           confirm={{ label: 'Delete', onClick: confirmDelete }}
           />
+
         <ShareModal open={showShare} close={closeShare} url={shareUrl} />
       </div>
     </div>

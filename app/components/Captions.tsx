@@ -1,21 +1,24 @@
 import React, { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
-import { useSelector, calculateStatus } from '../util/helpers'
+import { calculateStatus } from '../util/helpers'
 import Caption from './Caption'
 import FloatingEditor from '../util/floatingEditor'
 import { annotationHasHighlightsSelector } from '../util/selectors'
+import { StateWithHistory, AnnotationsState } from '../util/defaultState'
+import { CaptionMap } from '../graph/graph'
 
 export default function Captions() {
-  const captions = useSelector(state => state.graph.captions)
-  const editedCaptionId = useSelector(state => FloatingEditor.getId(state.display, 'caption'))
-  const storyMode = useSelector(state => state.display.modes.story)
-  const { list, currentIndex } = useSelector(state => state.annotations)
+  const captions = useSelector<StateWithHistory, CaptionMap>(state => state.graph.captions)
+  const editedCaptionId = useSelector<StateWithHistory, string | null>(state => FloatingEditor.getId(state.display, 'caption'))
+  const storyMode = useSelector<StateWithHistory, boolean>(state => state.display.modes.story)
+  const { list, currentIndex } = useSelector<StateWithHistory, AnnotationsState>(state => state.annotations)
   const highlightedCaptionIds = useMemo(
     () => storyMode ? (list[currentIndex]?.captionIds || []) : [],
     [storyMode, list, currentIndex]
   )
   const annotationHasHighlights = useSelector(annotationHasHighlightsSelector)
-  const editMode = useSelector(state => state.display.modes.editor)
+  const editMode = useSelector<StateWithHistory, boolean>(state => state.display.modes.editor)
 
   return (
     <g className="captions">

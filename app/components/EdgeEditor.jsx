@@ -6,7 +6,7 @@ import { useSelector } from '../util/helpers'
 import EditorHotKeys from './EditorHotKeys'
 import EditorHeader from './EditorHeader'
 import EditEdgeStyle from './EditEdgeStyle'
-import EditorSubmitButtons from './EditorSubmitButtons'
+import EditorButtons from './EditorButtons'
 import Graph from '../graph/graph'
 import { callWithTargetValue } from '../util/helpers'
 
@@ -100,8 +100,7 @@ export default function EdgeEditor({ id }) {
           }
         </main>
         <footer>
-          <EditorSubmitButtons 
-            hideSubmitButton={true}
+          <EditorButtons 
             handleDelete={removeEdge}
             page={page}
             setPage={setPage} />

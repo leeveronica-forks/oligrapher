@@ -5,7 +5,7 @@ import toNumber from 'lodash/toNumber'
 import { createMuiTheme } from '@material-ui/core/styles'
 
 import { Selector } from './selectors'
-import { State, StateWithHistory } from './defaultState'
+import { StateWithHistory } from './defaultState'
 import ConfirmSave from '../components/ConfirmSave'
 import EmptySave from '../components/EmptySave'
 import { hasContents } from '../graph/graph'
@@ -14,9 +14,9 @@ export function classNames(...classes: Array<string | undefined>): string {
   return classes.filter(Boolean).join(' ')
 }
 
-export function callWithTargetValue(func: (arg: any) => any): (event: Event) => any {
-  return function(event: Event) {
-    const value = (event.target as HTMLInputElement).value
+export function callWithTargetValue<T, U extends { target: { value: T } }>(func: (arg: T) => any): (event: U) => any {
+  return function(event: U) {
+    const value = event.target.value
     return func(value)
   }
 }
@@ -113,7 +113,7 @@ export function useSaveMap() {
 type RectCallback = (rect: DOMRect | null) => void
 
 export function useClientRect(callback: RectCallback) {
-  return useCallback((node: HTMLElement) => {
+  return useCallback((node: HTMLElement | null) => {
     if (node) {
       callback(node.getBoundingClientRect())
     } else {
@@ -131,10 +131,12 @@ export function useClientRect(callback: RectCallback) {
 //   settings: state.settings
 // }))
 
-export const convertSelectorForUndo = (selector: Selector<any>): Selector<any> => selector
+export function convertSelectorForUndo<T = any>(selector: Selector<T>): Selector<T> { 
+  return selector
+}
 
-function useConvertedSelector(selector: Selector<any>) {
-  return useSelector(convertSelectorForUndo(selector))
+function useConvertedSelector<T = any>(selector: Selector<T>): T {
+  return useSelector<StateWithHistory, T>(convertSelectorForUndo<T>(selector))
 }
 
 export { useConvertedSelector as useSelector }

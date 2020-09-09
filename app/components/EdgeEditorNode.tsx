@@ -1,10 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import NodeCircle from './NodeCircle'
 import NodeLabel from './NodeLabel'
+import { Node } from '../graph/node'
 
-export default function EdgeEditorNode({ node }) {
+export default function EdgeEditorNode({ node }: EdgeEditorNodeProps) {
   const nodeCopy = Object.assign({}, node, { x: 40, y: 20, scale: 2/3 })
 
   return (
@@ -15,6 +15,6 @@ export default function EdgeEditorNode({ node }) {
   )
 }
 
-EdgeEditorNode.propTypes = {
-  node: PropTypes.object.isRequired
+interface EdgeEditorNodeProps {
+  node: Node
 }

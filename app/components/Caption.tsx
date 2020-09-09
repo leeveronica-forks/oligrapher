@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
 import DraggableComponent from './DraggableComponent'
 import CaptionTextbox from './CaptionTextbox'
 import CaptionEditorTextarea from './CaptionEditorTextarea'
+import { Caption } from '../graph/caption'
+import { StateWithHistory } from '../util/defaultState'
 
-export default function Caption({ caption, currentlyEdited, status }) {
+export default function Caption({ caption, status, currentlyEdited = false }: CaptionProps) {
   const { id, x, y, width, height } = caption
   const [foreignObjectSize, setForeignObjectSize] = useState({ width, height })
-  const { isHighlighting } = useSelector(state => state.annotations)
+  const isHighlighting = useSelector<StateWithHistory, boolean>(state => state.annotations.isHighlighting)
 
   const dispatch = useDispatch()
   const onClick = useCallback(() => {
@@ -48,12 +49,8 @@ export default function Caption({ caption, currentlyEdited, status }) {
   )
 }
 
-Caption.propTypes = {
-  caption: PropTypes.object.isRequired,
-  currentlyEdited: PropTypes.bool.isRequired,
-  status: PropTypes.string.isRequired
-}
-
-Caption.defaultProps = {
-  currentlyEdited: false
+interface CaptionProps {
+  caption: Caption,
+  currentlyEdited: boolean,
+  status: string
 }

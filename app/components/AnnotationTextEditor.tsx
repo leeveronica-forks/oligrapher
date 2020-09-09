@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
+// @ts-ignore: no typings provided by ckeditor
 import CKEditor from '@ckeditor/ckeditor5-react'
+// @ts-ignore: no typings provided by ckeditor
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-export default function AnnotationTextEditor({ text, onChange }) {  
+export default function AnnotationTextEditor({ text, onChange }: AnnotationTextEditorProps) {  
   const cleanup = useCallback(string => (string === '' ? null : string), [])
   const handleChange = useCallback((event, editor) => { 
     onChange(cleanup(editor.getData()))
@@ -27,7 +28,7 @@ export default function AnnotationTextEditor({ text, onChange }) {
   )
 }
 
-AnnotationTextEditor.propTypes = {
-  text: PropTypes.string,
-  onChange: PropTypes.func.isRequired
+interface AnnotationTextEditorProps {
+  text: string,
+  onChange: (arg: string | null) => void
 }

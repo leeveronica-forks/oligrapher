@@ -97,9 +97,9 @@ export interface DisplayState {
 export interface SettingsState {
   debug: boolean,
   domId: string,
-  embed: boolean
+  embed: boolean,
+  url: string | null
 }
-
 
 export interface State {
   graph: Graph,
@@ -200,7 +200,8 @@ const defaultState: State = {
   settings: {
     debug: false,
     domId: 'oligrapher',
-    embed: false
+    embed: false,
+    url: null
   },
 
   lastSavedData: null

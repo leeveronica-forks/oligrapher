@@ -1,9 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { FiExternalLink } from 'react-icons/fi'
 
-export function SearchResult({ entity, onClick }) {
+import { LsNode } from '../datasources/littlesis3'
+import { StateWithHistory } from '../util/defaultState'
+
+export function SearchResult({ entity, onClick }: SearchResultProps) {
   return (
     <div className="entity-search-result">
       <a onClick={() => onClick(entity)}><b>{entity.name}</b></a>
@@ -17,13 +19,13 @@ export function SearchResult({ entity, onClick }) {
   )
 }
 
-SearchResult.propTypes = {
-  entity: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+interface SearchResultProps {
+  entity: LsNode,
+  onClick: (entity: LsNode) => any
 }
 
-export default function EntitySearchResults({ results, onClick }) {
-  const existingNodeIds = useSelector(state => Object.keys(state.graph.nodes))
+export default function EntitySearchResults({ results, onClick }: EntitySearchResultsProps) {
+  const existingNodeIds = useSelector<StateWithHistory, string[]>(state => Object.keys(state.graph.nodes))
   const visibleResults = results.filter(entity => !existingNodeIds.includes(entity.id))
 
   return (
@@ -39,7 +41,7 @@ export default function EntitySearchResults({ results, onClick }) {
   )
 }
 
-EntitySearchResults.propTypes = {
-  results: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired
+interface EntitySearchResultsProps {
+  results: LsNode[],
+  onClick: (entity: LsNode) => any
 }

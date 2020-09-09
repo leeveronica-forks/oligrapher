@@ -1,25 +1,30 @@
-import React, { useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
-import Draggable from 'react-draggable'
+import React, { useState, useCallback, FC } from 'react'
+import Draggable, { 
+  DraggableEventHandler, DraggableEvent, DraggableData 
+} from 'react-draggable'
 import noop from 'lodash/noop'
 
 import { useSelector } from '../util/helpers'
+import { Point } from '../util/geometry'
 
 /*
   Wrapper around react-draggable
   Required props: onDrag, onStop, handle
 */
-export default function DraggableComponent(props) {
+export const DraggableComponent: FC<DraggableComponentProps> = ({ children, ...props }) => {
   const [isDragging, setDragging] = useState(false)
   const svgZoom = useSelector(state => state.display.svgZoom)
 
   const onDrag = useCallback((evt, data) => {
     setDragging(true)
     const { x, y } = data
-    return props.onDrag({ x, y })
+
+    if (props.onDrag) {
+      return props.onDrag({ x, y })
+    }
   }, [props])
 
-  const onStop = useCallback((evt, data) => {
+  const onStop = useCallback((evt: DraggableEvent, data: DraggableData) => {
     if (isDragging) {
       const { x, y } = data
       props.onStop({ x, y })
@@ -45,22 +50,24 @@ export default function DraggableComponent(props) {
 
   return (
     <Draggable {...draggableProps}>
-      {props.children}
+      {children}
     </Draggable>
   )
 }
 
-DraggableComponent.propTypes = {
-  children: PropTypes.node.isRequired,
-  onStop: PropTypes.func.isRequired,
-  onDrag: PropTypes.func,
-  onStart: PropTypes.func,
-  onClick: PropTypes.func,
-  handle: PropTypes.string.isRequired,
-  position: PropTypes.object,
-  disabled: PropTypes.bool,
-  dragDisabled: PropTypes.bool,
-  enableUserSelectHack: PropTypes.bool
+export default DraggableComponent
+
+type DragHandler = (position: Point) => any
+
+interface DraggableComponentProps {
+  onStop: DragHandler,
+  onDrag?: DragHandler,
+  onStart?: DraggableEventHandler,
+  onClick: DraggableEventHandler,
+  handle: string,
+  position?: Point,
+  disabled?: boolean,
+  enableUserSelectHack?: boolean
 }
 
 DraggableComponent.defaultProps = {

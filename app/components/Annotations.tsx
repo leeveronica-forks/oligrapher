@@ -11,16 +11,17 @@ import AnnotationsNav from './AnnotationsNav'
 import AnnotationsTracker from './AnnotationsTracker'
 import HideAnnotationsButton from './HideAnnotationsButton'
 import { annotationsListSelector } from '../util/selectors'
+import { StateWithHistory, AnnotationsState, UserSettings } from '../util/defaultState'
 
 export function Annotations() {
   const dispatch = useDispatch()
   const create = useCallback(() => dispatch({ type: 'CREATE_ANNOTATION' }), [dispatch])
 
-  const editing = useSelector(state => state.display.modes.editor)
-  const { currentIndex } = useSelector(state => state.annotations)
+  const editing = useSelector<StateWithHistory>(state => state.display.modes.editor)
+  const { currentIndex } = useSelector<StateWithHistory, AnnotationsState>(state => state.annotations)
   const list = useSelector(annotationsListSelector)
   const annotation = list[currentIndex]
-  const { storyModeOnly } = useSelector(state => state.attributes.settings)
+  const { storyModeOnly } = useSelector<StateWithHistory, UserSettings>(state => state.attributes.settings)
 
   const prev = useCallback(
     () => dispatch({ type: 'SHOW_ANNOTATION', index: currentIndex - 1 }), 

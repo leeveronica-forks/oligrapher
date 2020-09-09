@@ -7,7 +7,7 @@ import toString from 'lodash/toString'
 import { useSelector } from '../util/helpers'
 import EditorHotKeys from './EditorHotKeys'
 import EditorHeader from './EditorHeader'
-import EditorSubmitButtons from './EditorSubmitButtons'
+import EditorButtons from './EditorButtons'
 import CaptionEditorSelect from './CaptionEditorSelect'
 import { callWithTargetValue } from '../util/helpers'
 
@@ -24,14 +24,14 @@ const FONT_WEIGHT_OPTIONS = [
 
 const FONT_SIZE_OPTIONS = range(8, 31, 2).map(toString).map(i => ({ value: i, label: i }))
 
-export default function CaptionEditor({ id }) {  
+export default function CaptionEditor({ id }: CaptionEditorProps) {  
   const dispatch = useDispatch()
   const caption = useSelector(state => state.graph.captions[id])
 
   const removeCaption = useCallback(() => dispatch({ type: 'REMOVE_CAPTION', id }), [dispatch, id])
 
-  const onChange = useCallback(type => { 
-    return callWithTargetValue(value => dispatch({ type: 'UPDATE_CAPTION', id, attributes: { [type]: value } }))
+  const onChange = useCallback((type: string) => { 
+    return callWithTargetValue<unknown, React.ChangeEvent<{ value: unknown }>>(value => dispatch({ type: 'UPDATE_CAPTION', id, attributes: { [type]: value } }))
   }, [dispatch, id])
 
   return (
@@ -48,16 +48,13 @@ export default function CaptionEditor({ id }) {
         </main>
 
         <footer>
-          <EditorSubmitButtons 
-            hideSubmitButton={true}
-            handleDelete={removeCaption}
-            page="main" />
+          <EditorButtons handleDelete={removeCaption} />
         </footer>
       </div>
     </EditorHotKeys>
   )
 }
 
-CaptionEditor.propTypes = {
-  id: PropTypes.string.isRequired,
+interface CaptionEditorProps {
+  id: string,
 }

@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { MdClose } from 'react-icons/md'
 
-export default function EditorHeader({ title }) {
+export default function EditorHeader({ title }: EditorHeaderProps) {
   const dispatch = useDispatch()
   const closeEditor = useCallback(() => dispatch({ type: 'CLOSE_EDITOR' }), [dispatch])
 
@@ -17,6 +16,6 @@ export default function EditorHeader({ title }) {
   )
 }
 
-EditorHeader.propTypes = {
-  title: PropTypes.string.isRequired
+interface EditorHeaderProps {
+  title: string
 }

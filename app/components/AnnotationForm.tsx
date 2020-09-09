@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { Input, Button } from '@material-ui/core'
 
 import { callWithTargetValue } from '../util/helpers'
 import AnnotationTextEditor from './AnnotationTextEditor'
+import { Annotation } from '../util/annotations'
 
-export default function AnnotationForm({ annotation }) {
+export default function AnnotationForm({ annotation }: AnnotationFormProps) {
   const { id, header, text } = annotation
 
   const dispatch = useDispatch()
@@ -54,6 +54,6 @@ export default function AnnotationForm({ annotation }) {
   )
 }
 
-AnnotationForm.propTypes = {
-  annotation: PropTypes.object.isRequired
+interface AnnotationFormProps {
+  annotation: Annotation
 }

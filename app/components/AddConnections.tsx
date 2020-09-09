@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import isArray from 'lodash/isArray'
 
 import { useSelector } from '../util/helpers'
@@ -10,6 +9,7 @@ import EditorHeader from './EditorHeader'
 import AddConnectionsCategory from './AddConnectionsCategory'
 import EntitySearchResults from './EntitySearchResults'
 import Graph from '../graph/graph'
+import { LsNode } from '../datasources/littlesis3'
 
 /*
   This is the "Add Connections" popup.
@@ -18,14 +18,14 @@ import Graph from '../graph/graph'
 
   The results component is <EntityResults>
 */
-export default function AddConnections({ id }) {
+export default function AddConnections({ id }: AddConnectionsProps) {
   const dispatch = useDispatch()
   const graph = useSelector(state => state.graph)
   const { x, y } = useSelector(state => state.graph.nodes[id])
   const connectedNodeIds = useMemo(() => Graph.connectedNodeIds(graph, id), [graph, id])
   const [categoryId, setCategoryId] = useState(0)
-  const [addedNodeIds, setAddedNodeIds] = useState([])
-  const [results, setResults] = useState(null)
+  const [addedNodeIds, setAddedNodeIds] = useState<string[]>([])
+  const [results, setResults] = useState<LsNode[] | null>(null)
   const [loading, setLoading] = useState(true)
   const excludeIds = addedNodeIds.concat(connectedNodeIds)
   const visibleResults = isArray(results) 
@@ -40,10 +40,10 @@ export default function AddConnections({ id }) {
     setAddedNodeIds(addedNodeIds.concat([node.id]))
   }, [dispatch, addedNodeIds, x, y])
 
-  const changeCategory = useCallback(callWithTargetValue(value => {
+  const changeCategory = useCallback(callWithTargetValue<string, React.ChangeEvent<any>>(value => {
     setCategoryId(parseInt(value))
     setResults(null)
-  }))
+  }), [])
 
   useEffect(() => {
     setLoading(true)
@@ -58,7 +58,7 @@ export default function AddConnections({ id }) {
       .catch(err => {
         if (!err.isCanceled) {
           console.error("Error finding connections", err)
-          setResults(false)
+          setResults(null)
           setLoading(false)
         }
       })
@@ -91,6 +91,6 @@ export default function AddConnections({ id }) {
   )
 }
 
-AddConnections.propTypes = {
-  id: PropTypes.string.isRequired
+interface AddConnectionsProps {
+  id: string
 }

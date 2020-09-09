@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { Button } from '@material-ui/core'
 
 import Confirm from './Confirm'
+import { Annotation } from '../util/annotations'
 
-export default function RemoveAnnotationButton({ annotation }) {
+export default function RemoveAnnotationButton({ annotation }: RemoveAnnotationButtonProps) {
   const dispatch = useDispatch()
   const { id, text } = annotation
   const mustConfirm = text && text.length > 30
@@ -41,6 +41,6 @@ export default function RemoveAnnotationButton({ annotation }) {
   )
 }
 
-RemoveAnnotationButton.propTypes = {
-  annotation: PropTypes.object.isRequired,
+interface RemoveAnnotationButtonProps {
+  annotation: Annotation,
 }

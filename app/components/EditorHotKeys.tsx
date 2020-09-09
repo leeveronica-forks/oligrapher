@@ -1,21 +1,23 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { KeyHandler } from 'hotkeys-js'
 import noop from 'lodash/noop'
 
 import { eventTargetIsFormElement } from '../util/helpers'
 
-export default function EditorHotKeys({ children, remove }) {
+export default function EditorHotKeys({ children, remove = noop }: EditorHotKeysProps) {
   const dispatch = useDispatch()
-  const closeEditor = useCallback(() => dispatch({ type: 'CLOSE_EDITOR' }), [dispatch])
+  const closeEditor = useCallback(() => { 
+    dispatch({ type: 'CLOSE_EDITOR' })
+  }, [dispatch]) as KeyHandler
 
   useHotkeys('escape', closeEditor)
   useHotkeys('backspace, del', event => {
     if (!eventTargetIsFormElement(event)) {
       remove(event)
     }
-  }, null, [remove])
+  }, undefined, [remove])
 
   return (
     <>
@@ -24,11 +26,7 @@ export default function EditorHotKeys({ children, remove }) {
   )
 }
 
-EditorHotKeys.propTypes = {
-  children: PropTypes.node.isRequired,
-  remove: PropTypes.func
-}
-
-EditorHotKeys.defaultProps = {
-  remove: noop
+interface EditorHotKeysProps {
+  children: JSX.Element,
+  remove?: (event: KeyboardEvent) => any
 }

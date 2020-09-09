@@ -7,14 +7,15 @@ import AnnotationsTracker from './AnnotationsTracker'
 import HideAnnotationsButton from './HideAnnotationsButton'
 import { annotationsListSelector } from '../util/selectors'
 import { useClientRect } from '../util/helpers'
+import { StateWithHistory } from '../util/defaultState'
 
 export default function CondensedAnnotations() {
   const dispatch = useDispatch()
 
-  const { currentIndex } = useSelector(state => state.annotations)
+  const currentIndex = useSelector<StateWithHistory, number>(state => state.annotations.currentIndex)
   const list = useSelector(annotationsListSelector)
   const annotation = list[currentIndex]
-  const { storyModeOnly } = useSelector(state => state.attributes.settings)
+  const storyModeOnly = useSelector<StateWithHistory, boolean>(state => state.attributes.settings.storyModeOnly)
 
   const prev = useCallback(
     () => dispatch({ type: 'SHOW_ANNOTATION', index: currentIndex - 1 }), 

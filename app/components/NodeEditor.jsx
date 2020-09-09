@@ -7,7 +7,7 @@ import EditorHeader from './EditorHeader'
 import SizePicker from './SizePicker'
 import EditNodeColorPage from './EditNodeColorPage'
 import NodeStyleForm from './NodeStyleForm'
-import EditorSubmitButtons from './EditorSubmitButtons'
+import EditorButtons from './EditorButtons'
 import EditorHotKeys from './EditorHotKeys'
 import { callWithTargetValue, isLittleSisId } from '../util/helpers'
 import { IoIosLink } from 'react-icons/io'
@@ -106,8 +106,7 @@ export default function NodeEditor({ id }) {
             <div title={`LittleSis Entity ID: ${id}`} className="node-littlesis-link"><IoIosLink /></div> 
           }
 
-          <EditorSubmitButtons
-            hideSubmitButton={true}
+          <EditorButtons
             handleDelete={removeNode}
             page={page}
             setPage={setPage} />

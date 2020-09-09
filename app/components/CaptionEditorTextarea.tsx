@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import ReactResizeDetector from 'react-resize-detector'
 
 import { styleForCaption } from './CaptionTextbox'
+import { Caption } from '../graph/caption'
 
-export default function CaptionEditorTextarea({ caption, updateCaption, setForeignObjectSize }) {
-  const textareaRef = useRef()
+export default function CaptionEditorTextarea({ caption, updateCaption, setForeignObjectSize }: CaptionEditorTextareaProps) {
+  const textareaRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>
 
   const onResize = useCallback(() => {
     const { width, height } = textareaRef.current.style
@@ -29,7 +29,7 @@ export default function CaptionEditorTextarea({ caption, updateCaption, setForei
     }
   }, [caption, updateCaption, onResize])
 
-  const style = styleForCaption(caption)
+  const style = styleForCaption(caption) as React.CSSProperties
 
   return (
     <div>
@@ -49,8 +49,8 @@ export default function CaptionEditorTextarea({ caption, updateCaption, setForei
   )
 }
 
-CaptionEditorTextarea.propTypes = {
-  caption: PropTypes.object.isRequired,
-  updateCaption: PropTypes.func.isRequired,
-  setForeignObjectSize: PropTypes.func.isRequired
+interface CaptionEditorTextareaProps {
+  caption: Caption,
+  updateCaption: (attributes: { text: string, width: number, height: number }) => any,
+  setForeignObjectSize: (size: { width: number, height: number }) => any
 }

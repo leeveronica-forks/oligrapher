@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import { NODE_RADIUS } from '../graph/node'
+import { Node, NODE_RADIUS } from '../graph/node'
 
-export function NodeCircle({ node, status }) {
+export function NodeCircle({ node, status = 'normal' }: NodeCircleProps) {
   const { x, y, color, scale } = node
   const radius = NODE_RADIUS * scale
   
@@ -25,13 +24,9 @@ export function NodeCircle({ node, status }) {
   )
 }
 
-NodeCircle.propTypes = {
-  node: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired
-}
-
-NodeCircle.defaultProps = {
-  status: 'normal'
+interface NodeCircleProps {
+  node: Node,
+  status?: 'normal' | 'highlighted' | 'faded'
 }
 
 export default React.memo(NodeCircle)

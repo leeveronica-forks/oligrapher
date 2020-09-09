@@ -17,7 +17,7 @@ export default function CondendsedHeader() {
 
   return (
     <div id="oligrapher-header-condensed" ref={ref}>
-      <Title text={title} editable={false} url={embed && url} />
+      <Title text={title} editable={false} url={embed ? url : null} />
     </div>
   )
 }

@@ -73,7 +73,7 @@ export function parse(arrow: ArrowType): { node1: boolean, node2: boolean } {
 }
 
 // String, Boolean, (1 | 2) => String
-export function change(arrow: ArrowType, addArrow: boolean, selected: '1' | '2'): string | null {
+export function change(arrow: ArrowType, addArrow: boolean, selected: '1' | '2'): ArrowType {
   let { node1, node2 } = parse(arrow)
 
   if (selected === '1') {
@@ -85,7 +85,7 @@ export function change(arrow: ArrowType, addArrow: boolean, selected: '1' | '2')
   return [
     [null, '1->2'],
     ['2->1', 'both']
-  ][Number(node1)][Number(node2)]
+  ][Number(node1)][Number(node2)] as ArrowType
 }
 
 const marker = {

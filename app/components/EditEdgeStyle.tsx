@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 
 import EdgeEditorNode from './EdgeEditorNode'
 import Arrow from '../graph/arrow'
+import { Edge, EdgeAttributes } from '../graph/edge'
+import { Node } from '../graph/node'
 
-export default function EditEdgeStyle({ edge, nodes, updateEdge }) {
+export default function EditEdgeStyle({ edge, nodes, updateEdge }: EditEdgeStyleProps) {
   const { node1, node2 } = Arrow.parse(edge.arrow)
   const leftArrow = node1 ? "←" : "―"
   const rightArrow = node2 ? "→" : "―"
@@ -46,8 +47,8 @@ export default function EditEdgeStyle({ edge, nodes, updateEdge }) {
   )
 }
 
-EditEdgeStyle.propTypes = {
-  edge: PropTypes.object.isRequired,
-  nodes: PropTypes.array.isRequired,
-  updateEdge: PropTypes.func.isRequired
+interface EditEdgeStyleProps {
+  edge: Edge,
+  nodes: Node[],
+  updateEdge: (attrs: EdgeAttributes) => any
 }
