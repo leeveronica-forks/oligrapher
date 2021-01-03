@@ -156,6 +156,7 @@ export function* save() {
       yield put({ type: 'SET_SAVED_DATA', data: params })
     }
   } catch(error) {
+    console.error(error)
     yield put({ type: 'SAVE_FAILED' })
   }
 
